@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>海洛塔帝 · 深秘院</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="chat">
+    <header>
+      <div class="avatar" aria-hidden="true">賢</div>
+      <div class="title">
+        <h1>海洛塔帝</h1>
+        <p>坎瑞亞 · 深秘院院長 · 賢者</p>
+      </div>
+      <button id="settings" type="button" hidden>API 設定</button>
+      <button id="reset" type="button" title="清除對話重新開始">重新開始</button>
+    </header>
+
+    <div id="log" class="log" role="log" aria-live="polite"></div>
+
+    <form id="form" class="composer">
+      <textarea id="input" rows="1" placeholder="向賢者提問……(Enter 送出,Shift+Enter 換行)" autofocus></textarea>
+      <button id="send" type="submit">送出</button>
+    </form>
+
+    <footer>
+      <span id="model"></span>
+      <span>非官方二創,角色語氣為虛構演繹,內容由 AI 生成。</span>
+    </footer>
+  </main>
+
+  <dialog id="dialog">
+    <form method="dialog" id="settingsForm">
+      <h2>API 設定</h2>
+      <p class="hint">支援任何 OpenAI 相容的 <code>/chat/completions</code> 服務。設定只存在你這個瀏覽器的 localStorage,會直接從瀏覽器送往你填的網址,不會經過本站。請使用你自己的金鑰,並避免在共用電腦上儲存。</p>
+      <label>API 網址
+        <input id="baseUrl" type="url" placeholder="https://api.openai.com/v1" required>
+      </label>
+      <label>API 金鑰
+        <input id="apiKey" type="password" autocomplete="off" placeholder="sk-...(本機模型可留空)">
+      </label>
+      <label>模型名稱
+        <input id="modelName" type="text" placeholder="gpt-4o-mini" required>
+      </label>
+      <p class="hint">需要該服務允許瀏覽器跨來源(CORS)呼叫。OpenAI、OpenRouter 可以;Ollama 需設定 <code>OLLAMA_ORIGINS</code>。</p>
+      <div class="actions">
+        <button type="button" id="clearKey">清除設定</button>
+        <button type="button" id="cancel">取消</button>
+        <button type="submit" value="save" class="primary">儲存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
