@@ -142,3 +142,10 @@ dialog input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
   background: var(--bg); border: 1px solid var(--line);
   border-radius: 8px; padding: 5px 8px;
 }
+
+.identity button { padding: 5px 10px; font-size: 14px; }
+dialog textarea {
+  display: block; width: 100%; margin-top: 4px; max-height: none;
+  font: inherit; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+}

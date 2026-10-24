@@ -21,6 +21,7 @@
     <div class="identity">
       <label for="identity">你的身分</label>
       <select id="identity"></select>
+      <button id="editCustom" type="button" hidden>編輯</button>
     </div>
 
     <div id="log" class="log" role="log" aria-live="polite"></div>
@@ -54,6 +55,20 @@
         <button type="button" id="clearKey">清除設定</button>
         <button type="button" id="cancel">取消</button>
         <button type="submit" value="save" class="primary">儲存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="customDialog">
+    <form method="dialog" id="customForm">
+      <h2>自訂身分</h2>
+      <p class="hint">描述你是誰、想以什麼身分與他說話,例如「一位想聊聊轉職的上班族」或「某個坎瑞亞的學徒」。最多 300 字。修改後會開始一段新的對話。</p>
+      <label>你的身分
+        <textarea id="customText" rows="4" maxlength="300" required></textarea>
+      </label>
+      <div class="actions">
+        <button type="button" id="customCancel">取消</button>
+        <button type="submit" value="save" class="primary">開始對話</button>
       </div>
     </form>
   </dialog>
