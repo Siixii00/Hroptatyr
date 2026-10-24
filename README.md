@@ -27,3 +27,5 @@ Pages 只能放靜態檔案,沒有後端,所以網頁會自動切換成「直連
 3. 推送後 `.github/workflows/pages.yml` 會把 `public/` 發佈出去
 
 直連模式要求該 API 允許瀏覽器跨來源(CORS)。
+
+> 若 Pages 的 Source 設為「Deploy from a branch」(根目錄),根目錄的 `index.html` 會自動轉址到 `public/`;設為 GitHub Actions 時則直接以 `public/` 為網站根目錄。
