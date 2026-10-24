@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT, GREETING } from "./persona.js";
+import { IDENTITIES, findIdentity, buildSystemPrompt } from "./persona.js";
 
 const log = document.getElementById("log");
 const form = document.getElementById("form");
@@ -11,12 +11,15 @@ const dialog = document.getElementById("dialog");
 const baseUrlEl = document.getElementById("baseUrl");
 const apiKeyEl = document.getElementById("apiKey");
 const modelNameEl = document.getElementById("modelName");
+const identityEl = document.getElementById("identity");
 
 const HISTORY_KEY = "hroptatyr-chat-history";
+const IDENTITY_KEY = "hroptatyr-chat-identity";
 const SETTINGS_KEY = "hroptatyr-chat-settings";
 const MAX_HISTORY = 40;
 
 let history = [];
+let identityId = "visitor";
 let busy = false;
 let proxyMode = false; // true:本機伺服器代為呼叫 API;false:瀏覽器直接呼叫(GitHub Pages)
 let settings = { baseUrl: "https://api.openai.com/v1", apiKey: "", model: "gpt-4o-mini" };
@@ -43,14 +46,17 @@ function addMsg(role, text) {
   return el;
 }
 
+const historyKey = () => `${HISTORY_KEY}:${identityId}`;
+
 function render() {
   log.replaceChildren();
-  addMsg("bot", GREETING);
+  addMsg("bot", findIdentity(identityId).greeting);
   for (const m of history) addMsg(m.role === "user" ? "user" : "bot", m.content);
 }
 
 function setBusy(value) {
   busy = value;
+  identityEl.disabled = value;
   sendBtn.disabled = value;
   input.disabled = value;
   if (!value) input.focus();
@@ -66,7 +72,7 @@ async function request(messages) {
     return fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages }),
+      body: JSON.stringify({ messages, identity: identityId }),
     });
   }
   const base = settings.baseUrl.replace(/\/+$/, "");
@@ -80,7 +86,7 @@ async function request(messages) {
       model: settings.model,
       stream: true,
       temperature: 0.8,
-      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages.slice(-MAX_HISTORY)],
+      messages: [{ role: "system", content: buildSystemPrompt(identityId) }, ...messages.slice(-MAX_HISTORY)],
     }),
   });
 }
@@ -137,7 +143,7 @@ async function streamReply(messages, onText) {
 
 async function send(text) {
   history.push({ role: "user", content: text });
-  writeJson(HISTORY_KEY, history);
+  writeJson(historyKey(), history);
   addMsg("user", text);
   const bubble = addMsg("bot", "");
   bubble.classList.add("typing");
@@ -150,11 +156,11 @@ async function send(text) {
     });
     if (!reply.trim()) throw new Error("模型沒有回覆內容");
     history.push({ role: "assistant", content: reply });
-    writeJson(HISTORY_KEY, history);
+    writeJson(historyKey(), history);
   } catch (err) {
     bubble.remove();
     history.pop(); // 失敗的那句不留在歷史裡,可直接重送
-    writeJson(HISTORY_KEY, history);
+    writeJson(historyKey(), history);
     addMsg("error", err.message);
     input.value = text;
   } finally {
@@ -190,7 +196,7 @@ input.addEventListener("input", () => {
 resetBtn.addEventListener("click", () => {
   if (busy) return;
   history = [];
-  writeJson(HISTORY_KEY, history);
+  writeJson(historyKey(), history);
   render();
 });
 
@@ -242,7 +248,13 @@ async function detectProxy() {
 }
 
 const config = await detectProxy();
-history = readJson(HISTORY_KEY, []);
+try {
+  const saved = localStorage.getItem(IDENTITY_KEY);
+  if (saved) identityId = findIdentity(saved).id;
+} catch {}
+for (const i of IDENTITIES) identityEl.add(new Option(i.label, i.id));
+identityEl.value = identityId;
+history = readJson(historyKey(), []);
 if (config) {
   proxyMode = true;
   showModel(config.model);
@@ -257,3 +269,13 @@ if (config) {
     addMsg("error", "尚未設定 API。請按右上角「API 設定」填入你自己的服務網址、金鑰與模型。");
   }
 }
+
+identityEl.addEventListener("change", () => {
+  identityId = findIdentity(identityEl.value).id;
+  try {
+    localStorage.setItem(IDENTITY_KEY, identityId);
+  } catch {}
+  history = readJson(historyKey(), []);
+  render();
+  input.focus();
+});

@@ -131,3 +131,14 @@ dialog input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
 .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 .actions .primary { background: var(--accent); color: var(--panel); border-color: var(--accent); }
 [hidden] { display: none !important; }
+
+.identity {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-bottom: 1px solid var(--line);
+  font-size: 14px; color: var(--muted);
+}
+.identity select {
+  flex: 1; min-width: 0; font: inherit; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 8px;
+}

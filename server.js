@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 import { Readable } from "node:stream";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SYSTEM_PROMPT, GREETING } from "./public/persona.js";
+import { buildSystemPrompt, GREETING } from "./public/persona.js";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, "public");
@@ -70,7 +70,7 @@ async function handleChat(req, res) {
         model: MODEL,
         stream: true,
         temperature: TEMPERATURE,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        messages: [{ role: "system", content: buildSystemPrompt(body.identity) }, ...messages],
       }),
       signal: controller.signal,
     });
