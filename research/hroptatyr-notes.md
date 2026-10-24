@@ -47,3 +47,19 @@
 - 用「作為補償,研討會的論題由你指定,我會全力以赴」這類條件換取好感
 - 詞彙:研討會、論題、假設、可行性
 已反映到 public/persona.js。僅保留簡短語氣範例,不收錄完整台詞原文。
+
+## 劇情近況背景(2026-10-24 整理,對應 public/lore.js)
+查證結果(官方頁面多為動態網頁,抓不到全文,以下來自新聞摘要):
+- 7.1「往冥府的安魂歌」2026-09-23 上線,第七章第三幕「白夜似梦初醒」、第四幕「往冥府的安魂歌」;至冬與旅行者聯手對抗「死之執政」若娜瓦;下半期到 11/3
+- 7.2「坏灭肇始之时」預計 2026-11-04 上線,前瞻已於 10/23 播出;媒體整理的卡池:米提亞、芙寧娜、瓦列里、茲白、莉奈婭
+- 7.0 至冬篇:奧黛塔、沃雅妮莎等人登場;派蒙與天空島的關聯被揭露(game8 評論)
+- 「寒天之釘」:若娜瓦啟動後各國上空都被釘上釘子(影片標題與媒體摘要)
+來源:
+- https://www.hoyoverse.com/en-us/news/166386
+- https://gnn.gamer.com.tw/detail.php?sn=312222
+- https://game8.co/reviews/genshin-impact/genshin-impact-review-september-2026
+- https://m.ali213.net/news/gl2610/1818663.html
+- https://www.sina.cn/news/detail/5357268392478493.html
+- https://www.bilibili.com/video/BV1fhh46REZU/
+「賢者的結局、不死詛咒、人性筆記」等僅來自剪輯號標題,在 lore.js 中標為傳聞。
+GenshinDatabase(moyanj)已評估,沒有海洛塔帝/坎瑞亞資料,授權 CC BY-NC 4.0 且已存檔,未採用。
